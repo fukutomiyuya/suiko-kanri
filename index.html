@@ -150,6 +150,7 @@ function App() {
   const [setup,     setSetup]     = useState({zone:"",crop:"",task:""});
   const [elapsed,   setElapsed]   = useState(0);
   const [endSnap,   setEndSnap]   = useState(0);
+  const [endTime,   setEndTime]   = useState(0);
   const [quantity,  setQty]       = useState("");
   const [adding,    setAdding]    = useState(false);
   const [newName,   setNewName]   = useState("");
@@ -255,12 +256,12 @@ function App() {
   const endTask = () => {
     clearInterval(timerRef.current);
     setEndSnap(elapsed);
+    setEndTime(Date.now()); // ← 終了ボタンを押した瞬間の時刻を確定
     setScreen("endTask");
   };
 
   // ── 記録保存 + GAS送信 ────────────────────────────────────────────────
   const saveRecord = async () => {
-    const endTime = Date.now();
     const duration = Math.floor((endTime - activeTask.startTime) / 1000);
     const rec = {
       id: Date.now().toString(),
